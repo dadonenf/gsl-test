@@ -97,6 +97,8 @@ endfunction()
 
 add_gsl_test(span_tests)
 
+add_library(gsl_asm_tests_config INTERFACE)
+
 # for tests to find the catch header
 target_include_directories(gsl_asm_tests_config INTERFACE
     ${CMAKE_BINARY_DIR}/external/include
