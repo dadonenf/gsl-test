@@ -68,22 +68,6 @@ else()
     )
 endif()
 
-
-if ((CMAKE_VERSION GREATER 3.7.9) OR (CMAKE_VERSION EQUAL 3.7.9))
-    if (MSVC_IDE)
-        option(VS_ADD_NATIVE_VISUALIZERS "Configure project to use Visual Studio native visualizers" TRUE)
-    else()
-        set(VS_ADD_NATIVE_VISUALIZERS FALSE CACHE INTERNAL "Native visualizers are Visual Studio extension" FORCE)
-    endif()
-
-    # add natvis file to the library so it will automatically be loaded into Visual Studio
-    if(VS_ADD_NATIVE_VISUALIZERS)
-        target_sources(GSL INTERFACE
-            ${CMAKE_CURRENT_SOURCE_DIR}/GSL.natvis
-        )
-    endif()
-endif()
-
 install(
     DIRECTORY include/gsl
     DESTINATION include
