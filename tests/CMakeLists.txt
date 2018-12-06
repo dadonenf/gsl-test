@@ -97,20 +97,15 @@ endfunction()
 
 add_gsl_test(span_tests)
 
-add_library(gsl_asm_tests_config INTERFACE)
+if(DEFINED ENV{APPVEYOR_JOB_NAME})
+    set(ASM_LOCATION ${CMAKE_SOURCE_DIR}\\asm\\$ENV{APPVEYOR_JOB_NAME})
+else()
+    set(ASM_LOCATION ${CMAKE_SOURCE_DIR}\\asm\\${CMAKE_GENERATOR})
+endif()
 
-# for tests to find the catch header
-target_include_directories(gsl_asm_tests_config INTERFACE
-    ${CMAKE_BINARY_DIR}/external/include
-)
-
-# set definitions for tests
-target_compile_definitions(gsl_asm_tests_config INTERFACE
-    GSL_THROW_ON_CONTRACT_VIOLATION
-)
-
-set(ASM_LOCATION ${CMAKE_SOURCE_DIR}\\asm\\${USED_CMAKE_GENERATOR})
 file(MAKE_DIRECTORY ${ASM_LOCATION})
+
+add_custom_target(asm_tests)
 
 function(add_gsl_asm_test name)
     add_library(${name}_asm ${name}.cpp)
@@ -131,9 +126,9 @@ function(add_gsl_asm_test name)
         GSL
         test_catch
         gsl_tests_config
-        gsl_asm_tests_config
     )
     add_dependencies(${name}_asm catch)
+    add_dependencies(asm_tests ${name}_asm)
     # group all tests under GSL_tests
     set_property(TARGET ${name}_asm PROPERTY FOLDER "GSL_tests")
 endfunction()
