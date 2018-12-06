@@ -98,6 +98,7 @@ endfunction()
 add_gsl_test(span_tests)
 
 if(DEFINED ENV{APPVEYOR_JOB_NAME})
+    message( STATUS "APPVEYOR_JOB_NAME : " $ENV{APPVEYOR_JOB_NAME} )
     set(ASM_LOCATION ${CMAKE_SOURCE_DIR}\\asm\\$ENV{APPVEYOR_JOB_NAME})
 else()
     set(ASM_LOCATION ${CMAKE_SOURCE_DIR}\\asm\\${CMAKE_GENERATOR})
