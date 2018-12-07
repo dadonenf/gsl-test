@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'vs2017-win2016'
+
+steps:
+- powershell: |
+    mkdir build
+    cd build
+    cmake .. -G "Visual Studio 15 2017" -DGSL_CXX_STANDARD="17"
+    cmake --build . --config Debug -- /m /v:minimal
+
+  displayName: Build Project
+
+- script: ctest -j2
+  displayName: 'Run Tests'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
