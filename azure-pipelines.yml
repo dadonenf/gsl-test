@@ -12,9 +12,11 @@ pool:
 variables:
   buildConfiguration: 'Release'
 
-
 steps:
-- powershell: cmake .. -G "Visual Studio 15 2017" -DGSL_CXX_STANDARD="17"
+- powershell: |
+  mkdir build
+  cd build
+  cmake .. -G "Visual Studio 15 2017" -DGSL_CXX_STANDARD="17"
 
 - script: ctest -j2
   displayName: 'Run Tests'
