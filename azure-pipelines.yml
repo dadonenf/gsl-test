@@ -9,9 +9,6 @@ trigger:
 pool:
   vmImage: 'vs2017-win2016'
 
-variables:
-  configuration: 'Release'
-
 steps:
 - powershell: |
     mkdir build
@@ -20,7 +17,7 @@ steps:
   displayName: Pre-Build Step
 
 - powershell: |
-    cmake --build . --config %CONFIGURATION% -- /m /v:minimal
+    cmake --build . --config Debug -- /m /v:minimal
 
 - script: ctest -j2
   displayName: 'Run Tests'
