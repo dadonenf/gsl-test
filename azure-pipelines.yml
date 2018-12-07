@@ -10,7 +10,7 @@ pool:
   vmImage: 'vs2017-win2016'
 
 variables:
-  buildConfiguration: 'Release'
+  configuration: 'Release'
 
 steps:
 - powershell: |
@@ -18,6 +18,9 @@ steps:
     cd build
     cmake .. -G "Visual Studio 15 2017" -DGSL_CXX_STANDARD="17"
   displayName: Pre-Build Step
+
+- powershell: |
+    cmake --build . --config %CONFIGURATION% -- /m /v:minimal
 
 - script: ctest -j2
   displayName: 'Run Tests'
