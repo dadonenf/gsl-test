@@ -14,9 +14,10 @@ variables:
 
 steps:
 - powershell: |
-  mkdir build
-  cd build
-  cmake .. -G "Visual Studio 15 2017" -DGSL_CXX_STANDARD="17"
+    mkdir build
+    cd build
+    cmake .. -G "Visual Studio 15 2017" -DGSL_CXX_STANDARD="17"
+  displayName: Pre-Build Step
 
 - script: ctest -j2
   displayName: 'Run Tests'
