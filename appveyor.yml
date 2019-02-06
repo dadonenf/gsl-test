@@ -71,9 +71,9 @@ artifacts:
 
 on_success:
   - cmd: |
-    cd %APPVEYOR_BUILD_FOLDER%
-    git fetch
-    git checkout %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
-    asm_helper.cmd
+      cd %APPVEYOR_BUILD_FOLDER%
+      git fetch
+      git checkout %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
+      asm_helper.cmd
 
 deploy: off
