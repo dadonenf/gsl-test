@@ -7,3 +7,7 @@
 
 #include <catch/catch.hpp> // for AssertionHandler, StringRef, CHECK, TEST_...
 
+int main(){
+
+    return 0;
+}
