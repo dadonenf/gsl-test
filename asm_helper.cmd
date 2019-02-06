@@ -11,8 +11,13 @@ IF %ERRORLEVEL% NEQ 0 (
 set ASM_LOC=%APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%
 
 REM Get branch to check asm into 
-(git checkout asm/%APPVEYOR_BUILD_NUMBER% && git pull) || (git checkout -b asm/%APPVEYOR_BUILD_NUMBER% && git push -u origin HEAD)
-git branch
+git checkout asm/%APPVEYOR_BUILD_NUMBER%
+IF %ERRORLEVEL% EQU 0 (
+    git pull
+) ElSE (
+    git checkout -b asm/%APPVEYOR_BUILD_NUMBER%
+    git push -u origin HEAD
+)
 
 REM Check asm into the branch
 git add "asm\%ASM_LOC%"
