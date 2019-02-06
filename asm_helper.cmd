@@ -1,33 +1,35 @@
 setlocal
 REM @echo off
 
-dir
-git status
-IF %ERRORLEVEL% NEQ 0 (
-    echo Failed git status
-    EXIT /B 1
-)
+git config --global credential.helper store
+powershell -command 'Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"'
+git config --global user.email "dadonenf@microsoft.com"
+git config --global user.name "Daniel Donenfeld"
 
-set ASM_LOC=%APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%
+
+git status
 
 REM Get branch to check asm into 
-echo Getting branch to check asm into
+echo [ASM_HELPER] Getting branch to check asm into
 git checkout asm/%APPVEYOR_BUILD_NUMBER%
 IF %ERRORLEVEL% EQU 0 (
-    echo Branch already existed, pulling not
+    echo [ASM_HELPER] Branch already existed, pulling not
     git pull
 ) ElSE (
-    echo Branch did not exist, creating
+    echo [ASM_HELPER] Branch did not exist, creating
     git checkout -b asm/%APPVEYOR_BUILD_NUMBER%
 
-    echo Pushing branch to remote
+    echo [ASM_HELPER] Pushing branch to remote
     git push -u origin HEAD
     IF %ERRORLEVEL% NEQ 0 (
-        echo Failed to push new branch
+        echo [ASM_HELPER] Failed to push new branch
         EXIT /B 1
     )
 )
-echo Done getting branch
+echo [ASM_HELPER] Done getting branch
+
+set ASM_LOC=%APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%
+
 
 REM Check asm into the branch
 git add "asm\%ASM_LOC%"
@@ -43,10 +45,10 @@ git push
 IF %ERRORLEVEL% NEQ 0 (
     if %LOOP_COUNT% LSS %MAX_LOOP_COUNT% (
         set /a "LOOP_COUNT = LOOP_COUNT + 1"
-        echo Retrying git push... (%LOOP_COUNT%/%MAX_LOOP_COUNT%)
+        echo [ASM_HELPER] Retrying git push... (%LOOP_COUNT%/%MAX_LOOP_COUNT%)
         goto PUSH_LOOP
     ) else (
-        echo We have reached the max attempts for pushing to the remote branch
+        echo [ASM_HELPER] We have reached the max attempts for pushing to the remote branch
         EXIT /B 1
     )
 )
