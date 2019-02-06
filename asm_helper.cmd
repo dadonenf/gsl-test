@@ -11,13 +11,19 @@ IF %ERRORLEVEL% NEQ 0 (
 set ASM_LOC=%APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%
 
 REM Get branch to check asm into 
+echo Getting branch to check asm into
 git checkout asm/%APPVEYOR_BUILD_NUMBER%
 IF %ERRORLEVEL% EQU 0 (
+    echo Branch already existed, pulling not
     git pull
 ) ElSE (
+    echo Branch did not exist, creating
     git checkout -b asm/%APPVEYOR_BUILD_NUMBER%
+
+    echo Pushing branch to remote
     git push -u origin HEAD
 )
+echo Done getting branch
 
 REM Check asm into the branch
 git add "asm\%ASM_LOC%"

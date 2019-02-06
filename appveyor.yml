@@ -22,6 +22,10 @@ environment:
     # - GSL_CXX_STANDARD: 14
     - GSL_CXX_STANDARD: 17
 
+environment:
+  access_token:
+    secure: JoKQ6wDekwtEk9su/zJWT12TtHMsHAacSLnPe47/SV22BAfVSMMR8VCyDF/W9bE2
+
 matrix:
     exclude:
     - image: Visual Studio 2015
@@ -68,6 +72,10 @@ artifacts:
     type: zip
 
 on_success:
+  - git config --global credential.helper store
+  - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
+  - git config --global user.email "dadonenf@microsoft.com"
+  - git config --global user.name "ASM Checkin"
   - cmd: |
       cd %APPVEYOR_BUILD_FOLDER%
       asm_helper.cmd
