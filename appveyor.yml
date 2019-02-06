@@ -70,7 +70,7 @@ artifacts:
     type: zip
 
 on_success:
-  - ps: git config --global credential.helper 'store --file $HOME\.git-credentials'
+  - git config --global credential.helper store
   - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "dadonenf@microsoft.com"
   - git config --global user.name "Daniel Donenfeld"
@@ -78,6 +78,7 @@ on_success:
   - git checkout %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH% 
   - git add "asm\%APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%"
   - git commit -m "[skip ci] Update ASM for %APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%"
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
   - git push
 
 deploy: off
