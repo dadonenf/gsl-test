@@ -1,6 +1,12 @@
 setlocal
 @echo off
 
+git status
+IF %ERRORLEVEL% NEQ 0 (
+    echo Failed git status
+    EXIT /B 1
+)
+
 REM TEMPORARY for test
 set APPVEYOR_BUILD_NUMBER=126
 
@@ -30,7 +36,7 @@ IF %ERRORLEVEL% NEQ 0 (
         echo Retrying git push... (%LOOP_COUNT%/%MAX_LOOP_COUNT%)
         goto PUSH_LOOP
     ) else (
-        REM We have reached the max attempts for pushing to the remote branch
+        echo We have reached the max attempts for pushing to the remote branch
         EXIT /B 1
     )
 )
