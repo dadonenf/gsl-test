@@ -20,13 +20,13 @@ git commit -m "Update ASM for %ASM_LOC%"
 REM Push changes to remote branch 
 set LOOP_COUNT=0
 REM There are currently 24 jobs in Appveyor, so try 25 times to push
-set MAX_LOOP_COUNT=25
+set MAX_LOOP_COUNT=2
 :PUSH_LOOP
 git pull
 git push
 IF %ERRORLEVEL% NEQ 0 (
-    if %LOOP_COUNT% LSS 25 (
-        echo Retrying git push...
+    if %LOOP_COUNT% LSS %MAX_LOOP_COUNT% (
+        echo Retrying git push... (%LOOP_COUNT%/%MAX_LOOP_COUNT%)
         goto PUSH_LOOP
     ) else (
         REM We have reached the max attempts for pushing to the remote branch
