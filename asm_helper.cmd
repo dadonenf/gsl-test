@@ -22,6 +22,10 @@ IF %ERRORLEVEL% EQU 0 (
 
     echo Pushing branch to remote
     git push -u origin HEAD
+    IF %ERRORLEVEL% NEQ 0 (
+        echo Failed to push new branch
+        EXIT /B 1
+    )
 )
 echo Done getting branch
 
