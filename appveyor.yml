@@ -56,10 +56,10 @@ before_build:
       cmake .. -G "$env:generator" -DGSL_CXX_STANDARD="$env:GSL_CXX_STANDARD" -DGSL_ASM_FOLDER="$($env:APPVEYOR_BUILD_WORKER_IMAGE)_$($env:GSL_CXX_STANDARD)_$($env:PLATFORM)_$($env:CONFIGURATION)"
 build_script:
   - cmake --build . --config %CONFIGURATION% -- /m /v:minimal
-after_build:
-  - cmd: |
-      cd %APPVEYOR_BUILD_FOLDER%
-      asm_helper.cmd
+# after_build:
+#   - cmd: |
+#       cd %APPVEYOR_BUILD_FOLDER%
+#       asm_helper.cmd
 
 test_script:
   - ctest -j2
@@ -68,5 +68,12 @@ artifacts:
   - path: asm
     name: Asm
     type: zip
+
+on_success:
+  - cmd: |
+    cd %APPVEYOR_BUILD_FOLDER%
+    git fetch
+    git checkout %APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH%
+    asm_helper.cmd
 
 deploy: off
