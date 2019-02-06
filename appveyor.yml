@@ -52,9 +52,12 @@ before_build:
           $env:generator="$env:generator Win64"
       }
       echo generator="$env:generator"
-      cmake .. -G "$env:generator" -DGSL_CXX_STANDARD="$env:GSL_CXX_STANDARD"
+      cmake .. -G "$env:generator" -DGSL_CXX_STANDARD="$env:GSL_CXX_STANDARD" -DGSL_ASM_FOLDER="$($env:APPVEYOR_BUILD_WORKER_IMAGE)_$($env:GSL_CXX_STANDARD)_$($env:PLATFORM)_$($env:CONFIGURATION)"
 build_script:
   - cmake --build . --config %CONFIGURATION% -- /m /v:minimal
+
+after_build:
+  - cmd: asm_helper.cmd
 
 test_script:
   - ctest -j2
