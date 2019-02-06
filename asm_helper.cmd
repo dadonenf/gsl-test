@@ -1,19 +1,14 @@
 setlocal
 @echo off
 
+dir
 git status
 IF %ERRORLEVEL% NEQ 0 (
     echo Failed git status
     EXIT /B 1
 )
 
-REM TEMPORARY for test
-set APPVEYOR_BUILD_NUMBER=126
-
 set ASM_LOC=%APPVEYOR_BUILD_WORKER_IMAGE%_%GSL_CXX_STANDARD%_%PLATFORM%_%CONFIGURATION%
-
-REM REM TEMPORARY for test
-REM set ASM_LOC=125
 
 REM Get branch to check asm into 
 (git checkout asm/%APPVEYOR_BUILD_NUMBER% && git pull) || (git checkout -b asm/%APPVEYOR_BUILD_NUMBER% && git push -u origin HEAD)
