@@ -58,7 +58,7 @@ build_script:
   - cmake --build . --config %CONFIGURATION% -- /m /v:minimal
 after_build:
   - cmd: |
-      cd
+      cd %APPVEYOR_BUILD_FOLDER%
       asm_helper.cmd
 
 test_script:
