@@ -70,7 +70,7 @@ artifacts:
     type: zip
 
 on_success:
-  - git config --global credential.helper store
+  - ps: git config --global credential.helper 'store --file $HOME\.git-credentials'
   - ps: Add-Content "$HOME\.git-credentials" "https://$($env:access_token):x-oauth-basic@github.com`n"
   - git config --global user.email "dadonenf@microsoft.com"
   - git config --global user.name "Daniel Donenfeld"
