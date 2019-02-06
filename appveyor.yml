@@ -18,13 +18,11 @@ image:
   - Visual Studio 2017
 
 environment:
+  access_token:
+    secure: JoKQ6wDekwtEk9su/zJWT12TtHMsHAacSLnPe47/SV22BAfVSMMR8VCyDF/W9bE2
   matrix:
     # - GSL_CXX_STANDARD: 14
     - GSL_CXX_STANDARD: 17
-
-environment:
-  access_token:
-    secure: JoKQ6wDekwtEk9su/zJWT12TtHMsHAacSLnPe47/SV22BAfVSMMR8VCyDF/W9bE2
 
 matrix:
     exclude:
