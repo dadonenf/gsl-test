@@ -26,6 +26,7 @@ git pull
 git push
 IF %ERRORLEVEL% NEQ 0 (
     if %LOOP_COUNT% LSS %MAX_LOOP_COUNT% (
+        set /a "LOOP_COUNT = LOOP_COUNT + 1"
         echo Retrying git push... (%LOOP_COUNT%/%MAX_LOOP_COUNT%)
         goto PUSH_LOOP
     ) else (
