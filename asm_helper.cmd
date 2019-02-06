@@ -1,5 +1,5 @@
 setlocal
-@echo off
+REM @echo off
 
 dir
 git status
